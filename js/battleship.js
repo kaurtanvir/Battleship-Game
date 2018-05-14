@@ -1,3 +1,4 @@
+//Model Object
 var model = {
 	boardSize : 7,
 	numShips : 3,
@@ -9,6 +10,7 @@ var model = {
 		{ locations: ["0", "0", "0"], hits: ["", "", ""] }
 	],
     
+    // Method to figure out if the shot is a hit or miss
     fire : function(guess) {
     	for (var i = 0; i < this.numShips; i++) {
     		var ship = this.ships[i];
@@ -30,6 +32,7 @@ var model = {
 
     },
 
+    // Checks if the ship has sunk
     isSunk : function(ship) {
     	for (var i = 0; i < this.shipLength; i++)
     	{
@@ -41,6 +44,7 @@ var model = {
     	return true;
     },
 
+    // Generate 
     generateShipLocations: function() {
 		var locations;
 		for (var i = 0; i < this.numShips; i++) {
@@ -53,6 +57,7 @@ var model = {
 		console.log(this.ships);
 	},
 
+	// generates ship locations on the board randomly
 	generateShip: function() {
 		var direction = Math.floor(Math.random() * 2);
 		var row, col;
@@ -89,21 +94,24 @@ var model = {
 	}
 
 };
-
+// view object
 var view = {
 
+	// takes a string message and displays it in the message area
 	displayMessage : function (msg) {
 		// body...
 		var messageArea = document.getElementById("messageArea");
 		messageArea.innerHTML = msg;
 	},
 
+	// sets the class of the element to hit
 	displayHit : function (location) {
 		// body...
 		var cell = document.getElementById(location);
 		cell.setAttribute("class","hit");
 	},
 
+	// sets the class of the elemnt to miss
 	displayMiss : function (location) {
 		// body...
 		var cell = document.getElementById(location);
@@ -112,9 +120,11 @@ var view = {
 
 };
 
+// controller object
 var controller = {
 	guesses : 0,
 
+	// process the player's guess
 	processGuess : function(guess) {
 
 	var location = parseGuess(guess);
@@ -129,6 +139,7 @@ var controller = {
 }
 };
 
+// helper function to parse a guess from the user
 function parseGuess(guess) {
 	var alphabet = ["A","B","C","D","E","F","G"];
 	if (guess == null || guess.length !==2){
@@ -154,6 +165,8 @@ function parseGuess(guess) {
 	return null;
 };
 
+// event handlers
+
 function handleFireButton()
 {
 	var guessInput = document.getElementById("guessInput");
@@ -175,14 +188,16 @@ function handleKeyPress(e) {
 	}
 }
 
+// init - called when the page has completed loading
 window.onload = init;
 
 function init() {
 	var fireButton = document.getElementById("fireButton");
+	// Fire! button onclick handler
 	fireButton.onclick = handleFireButton;
 	var guessInput = document.getElementById("guessInput");
 	guessInput.onkeypress = handleKeyPress;
-
+	// place the ships on the game board
 	model.generateShipLocations();
 
 	}
